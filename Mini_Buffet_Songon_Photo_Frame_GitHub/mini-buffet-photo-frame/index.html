@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#164b35"><meta name="description" content="Personnalise ton statut et invite tes proches au Festival culinaire Le Mini-Buffet Songon, le 7 novembre 2026.">
+<title>Mon cadre photo — Mini-Buffet Songon</title>
+<style>
+:root{--green:#174a34;--gold:#d8a83e;--brown:#4b2412;--cream:#fff8e8;--pink:#b40c53}*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#f9f0dc,#e9dfc8);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#2d2418}.wrap{max-width:1000px;margin:auto;padding:22px 16px 38px}.head{text-align:center;margin:0 auto 18px}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-weight:800;font-size:.76rem;color:var(--green)}h1{font-size:clamp(1.7rem,5vw,3rem);line-height:1.05;margin:8px 0;color:var(--brown)}.intro{max-width:650px;margin:0 auto;color:#655646}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:22px;align-items:start}.preview-card,.controls{background:#fffdf7;border:1px solid #e6d7b7;border-radius:22px;padding:16px;box-shadow:0 14px 36px #684a2020}.preview-card h2,.controls h2{font-size:1.08rem;margin:0 0 12px}.canvas-wrap{width:min(100%,420px);margin:auto;border-radius:12px;overflow:hidden;background:#eee}.canvas-wrap canvas{display:block;width:100%;height:auto}.controls{position:sticky;top:14px}.field{margin:0 0 16px}.field label{display:block;font-weight:750;margin-bottom:7px}.hint{font-size:.86rem;color:#746655;margin-top:6px}.file-input{width:100%;padding:12px;border:1px dashed #bca16c;border-radius:12px;background:#fff9ec}.buttons{display:grid;gap:10px}.btn{display:block;width:100%;border:0;border-radius:13px;padding:14px 16px;font-size:1rem;font-weight:800;text-align:center;cursor:pointer;text-decoration:none}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--green);color:white}.gold{background:var(--gold);color:#2b1a07}.outline{background:white;color:var(--green);border:2px solid var(--green)}.wa{background:#168b52;color:white}.option-row{display:flex;gap:8px}.option-row button{flex:1}.option-row button[aria-pressed="true"]{outline:3px solid #e8c46c;outline-offset:1px}.status{font-size:.92rem;color:#63533d;min-height:1.3em}.privacy{border-top:1px solid #eee2cb;margin-top:14px;padding-top:12px;font-size:.82rem;color:#786b5b}.footer{text-align:center;margin:20px 0 0;font-size:.8rem;color:#766955}.pill{display:inline-block;background:#f2e6c9;color:#62451b;border-radius:999px;padding:5px 10px;font-size:.78rem;font-weight:750;margin:4px 2px}
+@media(max-width:760px){.wrap{padding:18px 12px 28px}.layout{grid-template-columns:1fr}.controls{position:static;order:-1}.preview-card{padding:10px}.canvas-wrap{max-width:380px}}
+</style>
+</head><body><main class="wrap">
+<header class="head"><div class="eyebrow">Festival culinaire · Songon</div><h1>Je serai au<br>Mini-Buffet Songon !</h1><p class="intro">Ajoute ta photo, crée ton statut personnalisé et invite tes amis à réserver leur ticket.</p><div><span class="pill">7 novembre 2026</span><span class="pill">13 h 13</span><span class="pill">15 000 FCFA · boisson incluse</span></div></header>
+<section class="layout">
+<div class="preview-card"><h2>Ton affiche personnalisée</h2><div class="canvas-wrap"><canvas id="poster" width="1080" height="1920" aria-label="Aperçu de l'affiche personnalisée"></canvas></div><p class="hint">Astuce : choisis une photo nette, puis ajuste son cadrage avec les commandes.</p></div>
+<aside class="controls"><h2>Personnalise ton cadre</h2>
+<div class="field"><label for="photo">1. Choisis ta photo</label><input class="file-input" id="photo" type="file" accept="image/png,image/jpeg,image/webp"><div class="hint">JPG, PNG ou WebP. La photo reste dans ton téléphone et n'est pas envoyée sur un serveur.</div></div>
+<div class="field"><label>2. Choisis ton message</label><div class="option-row"><button class="btn outline" id="attending" aria-pressed="true" type="button">Je suis inscrit(e)</button><button class="btn outline" id="invite" aria-pressed="false" type="button">Je t'invite !</button></div></div>
+<div class="field"><label for="zoom">3. Ajuste le zoom de ta photo</label><input id="zoom" type="range" min="1" max="2.5" value="1" step="0.01" style="width:100%"><div class="hint">Tu peux aussi faire glisser la photo dans le cercle.</div></div>
+<div class="buttons"><button class="btn primary" id="download" disabled>Télécharger mon affiche PNG</button><button class="btn gold" id="share" disabled>Partager mon affiche</button><a class="btn wa" id="reserve" href="https://wa.me/2250709083200?text=Bonjour%2C%20je%20souhaite%20des%20informations%20pour%20r%C3%A9server%20mon%20ticket%20au%20Mini-Buffet%20Songon%20du%207%20novembre%202026." target="_blank" rel="noopener">Réserver / demander des infos sur WhatsApp</a></div>
+<p class="status" id="status" role="status">Choisis une photo pour commencer.</p><div class="privacy"><strong>Respect de la vie privée :</strong> la création de l'image s'effectue localement dans ton navigateur. Le partage sur WhatsApp est lancé par toi. Le bouton de réservation ouvre une conversation avec l'organisateur.</div>
+</aside></section><p class="footer">Le Mini-Buffet Songon · Songon, au bord de la lagune · Samedi 7 novembre 2026</p></main>
+<script>
+(() => {
+ const canvas=document.getElementById('poster'),ctx=canvas.getContext('2d');
+ const photoInput=document.getElementById('photo'),zoomInput=document.getElementById('zoom'),downloadBtn=document.getElementById('download'),shareBtn=document.getElementById('share'),status=document.getElementById('status');
+ const attendingBtn=document.getElementById('attending'),inviteBtn=document.getElementById('invite');
+ let photo=null, zoom=1, panX=0, panY=0, dragging=false,lastX=0,lastY=0, mode='attending';
+ const W=1080,H=1920;
+ function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+ function text(str,x,y,size,color,weight='700',align='center',font='Arial'){ctx.fillStyle=color;ctx.font=`${weight} ${size}px ${font}`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(str,x,y)}
+ function drawBackground(){
+  let g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fff8e8');g.addColorStop(.48,'#e9d4a0');g.addColorStop(1,'#fff6e2');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // warm lagoon sky and water backdrop
+  let sky=ctx.createLinearGradient(0,350,0,1380);sky.addColorStop(0,'#f6e4bc');sky.addColorStop(.45,'#f5c78c');sky.addColorStop(.67,'#5e9c9b');sky.addColorStop(1,'#164a45');ctx.fillStyle=sky;ctx.fillRect(0,360,W,1000);
+  ctx.fillStyle='rgba(255,240,198,.72)';ctx.beginPath();ctx.arc(850,520,105,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<16;i++){ctx.strokeStyle=`rgba(255,230,174,${.12+(i%3)*.05})`;ctx.lineWidth=3+i%3;ctx.beginPath();ctx.moveTo(500+i*12,670+i*24);ctx.lineTo(1080,665+i*26);ctx.stroke()}
+  // dark wooden foreground
+  let wood=ctx.createLinearGradient(0,1300,0,H);wood.addColorStop(0,'#744628');wood.addColorStop(1,'#2f1b12');ctx.fillStyle=wood;ctx.fillRect(0,1300,W,620);
+  for(let y=1330;y<H;y+=82){ctx.strokeStyle='rgba(255,209,133,.17)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y+5);ctx.stroke()}
+  // leafy corners
+  for(let side of [0,1])for(let i=0;i<7;i++){ctx.save();ctx.translate(side?W:0,80+i*38);ctx.rotate((side?1:-1)*(0.3+i*.08));ctx.fillStyle=i%2?'#1d5a38':'#367747';ctx.beginPath();ctx.ellipse(side?-35:35,0,95,19,0,0,Math.PI*2);ctx.fill();ctx.restore()}
+ }
+ function drawPhoto(){
+  const cx=540,cy=830,r=325;
+  ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();
+  if(photo){let base=Math.max((r*2)/photo.width,(r*2)/photo.height)*zoom;let dw=photo.width*base,dh=photo.height*base;let x=cx-dw/2+panX,y=cy-dh/2+panY;ctx.drawImage(photo,x,y,dw,dh)}else{
+   let g=ctx.createLinearGradient(0,500,0,1160);g.addColorStop(0,'#fffdf6');g.addColorStop(1,'#e4d7bf');ctx.fillStyle=g;ctx.fillRect(cx-r,cy-r,r*2,r*2);
+   text('AJOUTE TA PHOTO',cx,cy-10,38,'#8a6a35','800');text('pour personnaliser ton statut',cx,cy+42,24,'#7d6b53','500');
+  }
+  ctx.restore();
+  // concentric gold frame rings
+  ctx.save();ctx.shadowColor='rgba(48,25,4,.5)';ctx.shadowBlur=24;ctx.strokeStyle='#7d4b13';ctx.lineWidth=32;ctx.beginPath();ctx.arc(cx,cy,r+7,0,Math.PI*2);ctx.stroke();ctx.restore();
+  let gold=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);gold.addColorStop(0,'#fff0a7');gold.addColorStop(.22,'#b77b22');gold.addColorStop(.45,'#ffe8a0');gold.addColorStop(.7,'#9b6417');gold.addColorStop(1,'#f9d36b');ctx.strokeStyle=gold;ctx.lineWidth=22;ctx.beginPath();ctx.arc(cx,cy,r+7,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#fff0b5';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,r-10,0,Math.PI*2);ctx.stroke();
+ }
+ function draw(){
+  ctx.clearRect(0,0,W,H);drawBackground();
+  // header panel
+  ctx.fillStyle='rgba(255,250,237,.94)';rr(ctx,42,38,996,280,38);ctx.fill();
+  text('PERSONNALISE TON STATUT',540,100,48,'#4b2412','800');
+  text(mode==='attending'?'JE SERAI AU': 'JE T’INVITE AU',540,166,50,'#b17a20','800');
+  text('MINI-BUFFET SONGON !',540,238,65,'#174a34','900');
+  drawPhoto();
+  // info ribbon
+  ctx.fillStyle='#e7bd55';rr(ctx,110,1175,860,120,32);ctx.fill();ctx.strokeStyle='#fff0b1';ctx.lineWidth=5;ctx.stroke();
+  text('SAMEDI 7 NOVEMBRE 2026',540,1217,36,'#45260e','800');text('13 H 13  ·  SONGON, AU BORD DE LA LAGUNE',540,1264,27,'#45260e','700');
+  // lower CTA panel
+  ctx.fillStyle='rgba(255,249,232,.97)';rr(ctx,42,1340,996,530,38);ctx.fill();ctx.strokeStyle='#c89b43';ctx.lineWidth=5;ctx.stroke();
+  text(mode==='attending'?'ET TOI, TON TICKET EST PRÊT ?':'VIENS PARTAGER CE MOMENT !',540,1410,37,'#4b2412','900');
+  ctx.fillStyle='#174a34';rr(ctx,100,1460,880,108,26);ctx.fill();text(mode==='attending'?'RÉSERVE TA PLACE':'RÉSERVE TON TICKET',540,1514,43,'#fff8e8','900');
+  text('15 000 FCFA · BOISSON INCLUSE',540,1620,39,'#8b5c10','900');
+  text('Partage ce cadre et invite tes amis !',540,1705,29,'#4b2412','700');
+  // simple QR placeholder; explicitly tells people to use WhatsApp link
+  ctx.fillStyle='#fff';rr(ctx,445,1750,190,90,14);ctx.fill();ctx.strokeStyle='#b58a36';ctx.lineWidth=4;ctx.stroke();
+  text('RÉSERVATION',540,1778,18,'#4b2412','800');text('VIA WHATSAPP',540,1810,18,'#174a34','800');
+  text('Le Mini-Buffet Songon · Édition 2026',540,1840,18,'#6b4b2b','600');
+ }
+ photoInput.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!/^image\/(png|jpeg|webp)$/.test(f.type)){status.textContent='Format non pris en charge. Choisis une image JPG, PNG ou WebP.';return}if(f.size>10*1024*1024){status.textContent='Cette photo dépasse 10 Mo. Choisis un fichier plus léger.';return}const url=URL.createObjectURL(f);const img=new Image();img.onload=()=>{photo=img;zoom=1;panX=panY=0;zoomInput.value='1';downloadBtn.disabled=false;shareBtn.disabled=false;status.textContent='Photo chargée. Ajuste le cadrage puis télécharge ton affiche.';draw();URL.revokeObjectURL(url)};img.onerror=()=>{status.textContent='Impossible de lire cette image. Essaie une autre photo.';URL.revokeObjectURL(url)};img.src=url});
+ zoomInput.addEventListener('input',()=>{zoom=Number(zoomInput.value);draw()});
+ attendingBtn.addEventListener('click',()=>{mode='attending';attendingBtn.setAttribute('aria-pressed','true');inviteBtn.setAttribute('aria-pressed','false');draw()});inviteBtn.addEventListener('click',()=>{mode='invite';inviteBtn.setAttribute('aria-pressed','true');attendingBtn.setAttribute('aria-pressed','false');draw()});
+ function pointerPos(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
+ canvas.addEventListener('pointerdown',e=>{if(!photo)return;dragging=true;const p=pointerPos(e);lastX=p.x;lastY=p.y;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging)return;const p=pointerPos(e);panX+=p.x-lastX;panY+=p.y-lastY;lastX=p.x;lastY=p.y;draw()});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+ function blob(){return new Promise(resolve=>canvas.toBlob(resolve,'image/png'))}
+ downloadBtn.addEventListener('click',async()=>{if(!photo)return;const b=await blob();if(!b){status.textContent='La création du PNG a échoué. Réessaie.';return}const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='Mon-statut-Mini-Buffet-Songon.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500);status.textContent='Affiche téléchargée. Ouvre WhatsApp pour la publier en statut.'});
+ shareBtn.addEventListener('click',async()=>{if(!photo)return;const b=await blob();if(!b)return;const file=new File([b],'Mon-statut-Mini-Buffet-Songon.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:'Mini-Buffet Songon',text:'Je serai au Mini-Buffet Songon le 7 novembre 2026 ! Et toi, ton ticket est prêt ?'});status.textContent='Partage lancé.'}catch(err){if(err.name!=='AbortError')status.textContent='Le partage direct n’est pas disponible sur cet appareil. Télécharge le PNG puis partage-le depuis ta galerie.'}}else{status.textContent='Le partage direct n’est pas pris en charge ici. Télécharge le PNG puis publie-le depuis ta galerie.';downloadBtn.click()}});
+ draw();
+})();
+</script></body></html>
